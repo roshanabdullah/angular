@@ -1,0 +1,59 @@
+//ts file
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+
+
+
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+
+  constructor(private route: Router, private http: HttpClient){}
+
+  onSignin(formData: {username: string, password: string}){
+
+    
+    this.http.post('url', formData)
+    .subscribe((res: object) => {
+      this.route.navigate(['/home'])
+    }), ((error: object) => {
+      console.log(error)
+    })
+  }
+
+}
+
+//html
+<div class="container">
+    <div class="row">
+        <h1>TuTube</h1>
+    </div>
+    <div class="row2">
+        <div class="box">
+            <div class="box_row1">
+                <h4>Log in to stream videos!</h4>
+                <form #postForm="ngForm" (ngSubmit)="onSignin(postForm.value)">
+                    <input type="text" required ngModel name="username" placeholder="Enter your username">
+                    <input type="text" required ngModel name="password" placeholder="Enter your password">
+                    <button type="submit" [disabled]="!postForm.valid">Sign In</button>
+                </form>
+            </div>
+            <div class="box_row2">
+                <a href="#">Can't log in?</a>
+                <a href="#">Sign up for an account</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+//modules
+FormsModule
+HttpClientModule
+
+
